@@ -1,0 +1,3 @@
+config:
+  redmineUrl: 'https://some.redmine.url'
+  redmineToken: 'yourToken'
