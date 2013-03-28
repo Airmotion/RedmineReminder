@@ -1,0 +1,20 @@
+{
+    "name": "Airmotion/RedmineReminder",
+    "description": "Reminds pepole that there are solved issues",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Fridolin Koch",
+            "email": "friodolin.koch@airmotion.de"
+        }
+    ],
+    "require": {
+        "kbsali/redmine-api": "dev-master",
+        "swiftmailer/swiftmailer": "dev-master",
+        "twig/twig": "dev-master",
+        "symfony/console": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {"Airmotion": "src/"}
+    }
+}
