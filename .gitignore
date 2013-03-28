@@ -3,3 +3,5 @@ vendor/*
 config.yml
 .idea
 redmineReminder.php
+
+composer.phar
