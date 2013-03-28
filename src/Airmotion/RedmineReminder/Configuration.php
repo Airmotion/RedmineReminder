@@ -24,6 +24,11 @@ class Configuration
     protected $redmineToken;
 
     /**
+     * @var \Twig_Environment
+     */
+    protected $twig;
+
+    /**
      * Constructor is private
      */
     private function __construct()
@@ -52,7 +57,7 @@ class Configuration
         }
 
         if (array_key_exists('redmineToken', $config)) {
-            $this->redmineUrl = $config['redmineToken'];
+            $this->redmineToken = $config['redmineToken'];
         }
     }
 
@@ -86,6 +91,22 @@ class Configuration
     public function getRedmineUrl()
     {
         return $this->redmineUrl;
+    }
+
+    /**
+     * @return \Twig_Environment
+     */
+    public function getTwig()
+    {
+        return $this->twig;
+    }
+
+    /**
+     * @param \Twig_Environment $twig
+     */
+    public function setTwig(\Twig_Environment $twig)
+    {
+        $this->twig = $twig;
     }
 
 

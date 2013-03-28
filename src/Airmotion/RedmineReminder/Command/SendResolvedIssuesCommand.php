@@ -11,18 +11,19 @@ use Redmine\Client;
 
 use Airmotion\RedmineReminder\Configuration;
 
+
 /**
- * Class ListResolvedIssuesCommand
+ * Class SendResolvedIssuesReminderCommand
  *
  * @author Fridolin Koch <fridolin.koch@airmotion.de>
  */
-class ListResolvedIssuesCommand extends Command
+class SendResolvedIssuesCommand extends Command
 {
     protected function configure()
     {
         $this
-            ->setName('issues:resolved:list')
-            ->setDescription('Show resolved issues that have not been updated for a while (Default 5 days)')
+            ->setName('issues:resolved:send')
+            ->setDescription('Send a reminder email to all authors with resolved issues (Default 5 days)')
             ->addOption('last-updated', 'l', InputOption::VALUE_OPTIONAL, 'Show only issues that have not been updated for X day (Default: 5, minimum: 1)', 5);
     }
 
@@ -60,12 +61,39 @@ class ListResolvedIssuesCommand extends Command
             }
         }
 
+        $twig = $config->getTwig();
+
+        $transport = \Swift_SendmailTransport::newInstance();
+
+        // Create the Mailer using your created Transport
+        $mailer = \Swift_Mailer::newInstance($transport);
+
+        //$transport->
+
         foreach ($badIssues as $userId => $issues) {
 
             //get user
             $usr = $user->show($userId);
             //output result
-            $output->writeln(sprintf('%s<%s> has %d resolved issues', $usr['user']['firstname'], $usr['user']['mail'], count($issues)));
+            //$output->writeln(sprintf('%s<%s> has %d resolved issues', $usr['user']['firstname'], $usr['user']['mail'], count($issues)));
+
+            $messageText = $twig->render('resolvedIssuesReminder.html.twig', array(
+                'name'      => $usr['user']['firstname'],
+                'issues'    => $issues,
+                'age'       => $age,
+                'baseUrl'   => $config->getRedmineUrl()
+            ));
+
+            // Create the message
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Redmine Erinnerung')
+                ->setFrom(array('redmine@airmotion.de' => 'Airmotion Redmine'))
+                //->setTo(array($usr['user']['mail'] => $usr['user']['firstname'].' '.$usr['user']['lastname']))
+                ->setTo(array('fk@airmotion.de'))
+                ->setBody($messageText, 'text/html');
+            ;
+
+            $mailer->send($message);
 
         }
 

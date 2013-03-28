@@ -10,7 +10,7 @@ $yaml = new Parser();
 try {
     $value = $yaml->parse(file_get_contents('./config.yml'));
 
-    $app = new Reminder($value['config']);
+    $app = new Reminder($value['config'], __DIR__);
     $app->run();
 
 } catch (ParseException $e) {

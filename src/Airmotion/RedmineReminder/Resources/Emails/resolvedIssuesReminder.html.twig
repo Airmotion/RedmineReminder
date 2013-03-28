@@ -1,0 +1,25 @@
+<html>
+<head>
+    <title>Erinnerung</title>
+</head>
+<body>
+
+
+<p>Hallo {{ name }},<br/>
+    <br/>
+    einige deiner Tickets haben den Status <i>Gelöst</i> seit mehr als {{ age }} Tagen. Bitte nehm dir fünf Minuten Zeit und Prüfe den Status der Aufgabe.
+    Ist die Aufgabe auch aus deiner Sicht gelöst setzte den Status bitte auf <i>Erledigt</i> bzw. auf <i>Feedback</i> falls es noch etwas zu tun gibt.
+    <br/>
+    <br/>
+    Die folgenden Tickets warten noch auf ein Feedback: <br/>
+    <ul>
+        {% for issue in issues %}
+            <li><i>[{{ issue.updated_on|date('d.m.Y - H:i') }}]</i>&nbsp;<a href="{{ baseUrl }}/issues/{{ issue.id }}" target="_blank">[{{ issue.project.name }}]<strong>{{ issue.subject }}</strong> - (Zugewiesen an: {{ issue.assigned_to.name|trim }})</a></li>
+        {% endfor %}
+    </ul>
+    <br />
+    Vielen Dank und liebe Grüße<br/>
+    Der Airmotion Redmine Bot
+</p>
+</body>
+</html>
