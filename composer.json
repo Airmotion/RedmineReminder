@@ -12,7 +12,8 @@
         "kbsali/redmine-api": "dev-master",
         "swiftmailer/swiftmailer": "dev-master",
         "twig/twig": "dev-master",
-        "symfony/console": "dev-master"
+        "symfony/console": "dev-master",
+        "symfony/yaml": "2.2.x-dev"
     },
     "autoload": {
         "psr-0": {"Airmotion": "src/"}
