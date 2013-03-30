@@ -5,3 +5,5 @@ config.yml
 redmineReminder.php
 
 composer.phar
+
+.DS_Store
