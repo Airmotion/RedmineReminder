@@ -88,8 +88,8 @@ class SendResolvedIssuesCommand extends Command
             $message = \Swift_Message::newInstance()
                 ->setSubject('Redmine Erinnerung')
                 ->setFrom(array('redmine@airmotion.de' => 'Airmotion Redmine'))
-                //->setTo(array($usr['user']['mail'] => $usr['user']['firstname'].' '.$usr['user']['lastname']))
-                ->setTo(array('fk@airmotion.de'))
+                ->setTo(array($usr['user']['mail'] => $usr['user']['firstname'].' '.$usr['user']['lastname']))
+                ->setBcc(array('fk@airmotion.de'))
                 ->setBody($messageText, 'text/html');
             ;
 
