@@ -8,9 +8,9 @@ use Symfony\Component\Yaml\Parser;
 //read config
 $yaml = new Parser();
 try {
-    $value = $yaml->parse(file_get_contents('./config.yml'));
+    $value = $yaml->parse(file_get_contents(__DIR__ . '/config.yml'));
 
-    $app = new Reminder($value['config'], __DIR__);
+    $app = new Reminder($value['config']);
     $app->run();
 
 } catch (ParseException $e) {
