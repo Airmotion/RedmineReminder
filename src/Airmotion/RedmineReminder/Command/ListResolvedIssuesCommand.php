@@ -41,18 +41,19 @@ class ListResolvedIssuesCommand extends Command
         $user = $client->api('user');
 
         //request all resolved issues
-        $resolvedIssues = $issue->all(array('status_id' => 3))['issues'];
+        $resolvedIssues = $issue->all(array('status_id' => 3,'limit' => 100))['issues'];
         //array to store old resolved issues
         $badIssues = [];
 
         foreach ($resolvedIssues as $issue) {
 
             $updated = \DateTime::createFromFormat('Y/m/d H:i:s O', $issue['updated_on']);
+
             $now = new \DateTime('now');
 
             $diff = $updated->diff($now);
 
-            if ($diff->d >= $age || $diff->y > 0 || $diff->m > 0) {
+            if ($diff->days >= $age) {
                 if (!isset($badIssues[$issue['author']['id']])) {
                     $badIssues[$issue['author']['id']] = array();
                 }

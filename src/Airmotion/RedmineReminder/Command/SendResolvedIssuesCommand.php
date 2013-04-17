@@ -42,7 +42,7 @@ class SendResolvedIssuesCommand extends Command
         $user = $client->api('user');
 
         //request all resolved issues
-        $resolvedIssues = $issue->all(array('status_id' => 3))['issues'];
+        $resolvedIssues = $issue->all(array('status_id' => 3,'limit' => 100))['issues'];
         //array to store old resolved issues
         $badIssues = [];
 
@@ -53,7 +53,7 @@ class SendResolvedIssuesCommand extends Command
 
             $diff = $updated->diff($now);
 
-            if ($diff->d >= $age || $diff->y > 0 || $diff->m > 0) {
+            if ($diff->days >= $age) {
                 if (!isset($badIssues[$issue['author']['id']])) {
                     $badIssues[$issue['author']['id']] = array();
                 }
