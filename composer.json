@@ -1,7 +1,9 @@
 {
-    "name": "Airmotion/RedmineReminder",
+    "name": "airmotion/redmine-reminder",
     "description": "Reminds pepole that there are solved issues",
     "minimum-stability": "stable",
+    "license": "MIT",
+    "version": "1.0",
     "authors": [
         {
             "name": "Fridolin Koch",
