@@ -24,7 +24,8 @@ class SendResolvedIssuesCommand extends Command
         $this
             ->setName('issues:resolved:send')
             ->setDescription('Send a reminder email to all authors with resolved issues (Default 5 days)')
-            ->addOption('last-updated', 'l', InputOption::VALUE_OPTIONAL, 'Show only issues that have not been updated for X day (Default: 5, minimum: 1)', 5);
+            ->addOption('last-updated', 'l', InputOption::VALUE_OPTIONAL, 'Show only issues that have not been updated for X day (Default: 5, minimum: 1)', 5)
+            ->addOption('override-receiver', null, InputOption::VALUE_OPTIONAL, 'Override the receiver address for debug purposes.', null);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -32,6 +33,8 @@ class SendResolvedIssuesCommand extends Command
         $config = Configuration::getInstance();
 
         $age = $input->getOption('last-updated');
+
+        $receiver = $input->getOption('override-receiver');
 
         $client = new Client($config->getRedmineUrl(), $config->getRedmineToken());
 
@@ -70,13 +73,21 @@ class SendResolvedIssuesCommand extends Command
 
         //$transport->
 
+        if ($receiver != null) {
+            $output->writeln(sprintf('<comment>override-receiver</comment> is active, all mails are sent to %s', $receiver));
+        }
+
         foreach ($badIssues as $userId => $issues) {
 
             //get user
             $usr = $user->show($userId);
-            //output result
-            //$output->writeln(sprintf('%s<%s> has %d resolved issues', $usr['user']['firstname'], $usr['user']['mail'], count($issues)));
 
+            //determine
+            if ($receiver === null) {
+                $receiver = $usr['user']['mail'];
+            }
+
+            //output result
             $messageText = $twig->render('resolvedIssuesReminder.html.twig', array(
                 'name'      => $usr['user']['firstname'],
                 'issues'    => $issues,
@@ -89,12 +100,15 @@ class SendResolvedIssuesCommand extends Command
                 ->setSubject('Erinnerung: Gelöste Tickets schließen')
                 ->setPriority(1)
                 ->setFrom(array('redmine@airmotion.de' => 'Airmotion Redmine'))
-                ->setTo(array($usr['user']['mail'] => $usr['user']['firstname'].' '.$usr['user']['lastname']))
+                ->setTo(array($receiver => $usr['user']['firstname'].' '.$usr['user']['lastname']))
                 ->setBcc(array('fk@airmotion.de'))
                 ->setBody($messageText, 'text/html');
             ;
 
             $mailer->send($message);
+
+            //info
+            $output->writeln(sprintf('E-Mail sent to %s %s<%s>', $usr['user']['firstname'], $usr['user']['lastname'], $usr['user']['mail']));
 
         }
 
