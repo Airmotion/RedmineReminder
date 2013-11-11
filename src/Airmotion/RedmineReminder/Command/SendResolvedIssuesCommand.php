@@ -86,7 +86,8 @@ class SendResolvedIssuesCommand extends Command
 
             // Create the message
             $message = \Swift_Message::newInstance()
-                ->setSubject('Redmine Erinnerung')
+                ->setSubject('Erinnerung: Gelöste Tickets schließen')
+                ->setPriority(1)
                 ->setFrom(array('redmine@airmotion.de' => 'Airmotion Redmine'))
                 ->setTo(array($usr['user']['mail'] => $usr['user']['firstname'].' '.$usr['user']['lastname']))
                 ->setBcc(array('fk@airmotion.de'))
