@@ -51,7 +51,7 @@ class SendResolvedIssuesCommand extends Command
 
         foreach ($resolvedIssues as $issue) {
 
-            $updated = \DateTime::createFromFormat('Y/m/d H:i:s O', $issue['updated_on']);
+            $updated = \DateTime::createFromFormat(\DateTime::ISO8601, $issue['updated_on']);
             $now = new \DateTime('now');
 
             $diff = $updated->diff($now);
