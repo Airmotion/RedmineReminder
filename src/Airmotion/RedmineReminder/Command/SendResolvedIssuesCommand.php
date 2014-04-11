@@ -71,21 +71,10 @@ class SendResolvedIssuesCommand extends Command
         // Create the Mailer using your created Transport
         $mailer = \Swift_Mailer::newInstance($transport);
 
-        //$transport->
-
-        if ($receiver != null) {
-            $output->writeln(sprintf('<comment>override-receiver</comment> is active, all mails are sent to %s', $receiver));
-        }
-
         foreach ($badIssues as $userId => $issues) {
 
             //get user
             $usr = $user->show($userId);
-
-            //determine
-            if ($receiver === null) {
-                $receiver = $usr['user']['mail'];
-            }
 
             //output result
             $messageText = $twig->render('resolvedIssuesReminder.html.twig', array(
@@ -100,7 +89,7 @@ class SendResolvedIssuesCommand extends Command
                 ->setSubject('Erinnerung: Gelöste Tickets schließen')
                 ->setPriority(1)
                 ->setFrom(array('redmine@airmotion.de' => 'Airmotion Redmine'))
-                ->setTo(array($receiver => $usr['user']['firstname'].' '.$usr['user']['lastname']))
+                ->setTo(array($usr['user']['mail'] => $usr['user']['firstname'].' '.$usr['user']['lastname']))
                 ->setBody($messageText, 'text/html');
             ;
 
