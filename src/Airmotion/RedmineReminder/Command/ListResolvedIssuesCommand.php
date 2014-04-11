@@ -45,9 +45,10 @@ class ListResolvedIssuesCommand extends Command
         //array to store old resolved issues
         $badIssues = [];
 
+
         foreach ($resolvedIssues as $issue) {
 
-            $updated = \DateTime::createFromFormat('Y/m/d H:i:s O', $issue['updated_on']);
+            $updated = \DateTime::createFromFormat(\DateTime::ISO8601, $issue['updated_on']);
 
             $now = new \DateTime('now');
 
