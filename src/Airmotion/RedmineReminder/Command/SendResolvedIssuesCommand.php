@@ -101,7 +101,6 @@ class SendResolvedIssuesCommand extends Command
                 ->setPriority(1)
                 ->setFrom(array('redmine@airmotion.de' => 'Airmotion Redmine'))
                 ->setTo(array($receiver => $usr['user']['firstname'].' '.$usr['user']['lastname']))
-                ->setBcc(array('fk@airmotion.de'))
                 ->setBody($messageText, 'text/html');
             ;
 
