@@ -1,13 +1,13 @@
 {
     "name": "airmotion/redmine-reminder",
-    "description": "Reminds pepole that there are solved issues",
+    "description": "Reminds pepole that there are solved issues which should be closed",
     "minimum-stability": "stable",
     "license": "MIT",
-    "version": "1.0",
+    "version": "1.1.0",
     "authors": [
         {
             "name": "Fridolin Koch",
-            "email": "friodolin.koch@airmotion.de"
+            "email": "info@fridokoch.de"
         }
     ],
     "require": {
@@ -19,5 +19,8 @@
     },
     "autoload": {
         "psr-0": {"Airmotion": "src/"}
-    }
+    },
+    "bin": [
+      "redmine-reminder"
+    ]
 }

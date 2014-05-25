@@ -77,12 +77,12 @@ class SendResolvedIssuesCommand extends Command
             $usr = $user->show($userId);
 
             //output result
-            $messageText = $twig->render('resolvedIssuesReminder.html.twig', array(
+            $messageText = $twig->render('resolvedIssuesReminder.html.twig', [
                 'name'      => $usr['user']['firstname'],
                 'issues'    => $issues,
                 'age'       => $age,
                 'baseUrl'   => $config->getRedmineUrl()
-            ));
+            ]);
 
             // Create the message
             $message = \Swift_Message::newInstance()
@@ -91,7 +91,6 @@ class SendResolvedIssuesCommand extends Command
                 ->setFrom(array('redmine@airmotion.de' => 'Airmotion Redmine'))
                 ->setTo(array($usr['user']['mail'] => $usr['user']['firstname'].' '.$usr['user']['lastname']))
                 ->setBody($messageText, 'text/html');
-            ;
 
             $mailer->send($message);
 

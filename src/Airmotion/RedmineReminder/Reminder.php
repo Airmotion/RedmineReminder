@@ -15,12 +15,12 @@ class Reminder extends Application
 
     /**
      * Reminder constructor.
-     * @param array  $config
-     * @param string $rootPath
+     *
+     * @param array $config
      */
     public function __construct($config)
     {
-        parent::__construct('Airmotion Redmine Reminder (ARR)', '1.0');
+        parent::__construct('Airmotion Redmine Reminder', '1.1.0');
 
         //load config
         Configuration::getInstance()->loadFromArray($config);
