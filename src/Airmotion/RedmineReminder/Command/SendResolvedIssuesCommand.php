@@ -75,6 +75,10 @@ class SendResolvedIssuesCommand extends Command
 
             //get user
             $usr = $user->show($userId);
+            //if user has no email or is not active
+            if (!isset($usr['user']['mail']) || (isset($usr['user']['status']) && $usr['user']['status'] != 1)) {
+                continue;
+            }
 
             //output result
             $messageText = $twig->render('resolvedIssuesReminder.html.twig', [
